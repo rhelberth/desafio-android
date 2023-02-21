@@ -1,16 +1,16 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.ui
 
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
-import okhttp3.mockwebserver.Dispatcher
+import com.picpay.desafio.android.R
+import com.picpay.desafio.android.ui.RecyclerViewMatchers.atPosition
+import com.picpay.desafio.android.ui.activity.MainActivity
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Test
 
 
@@ -33,19 +33,17 @@ class MainActivityTest {
 
     @Test
     fun shouldDisplayListItem() {
-        server.dispatcher = object : Dispatcher() {
-            override fun dispatch(request: RecordedRequest): MockResponse {
-                return when (request.path) {
-                    "/users" -> successResponse
-                    else -> errorResponse
-                }
-            }
-        }
 
-        server.start(serverPort)
 
         launchActivity<MainActivity>().apply {
-            // TODO("validate if list displays items returned by server")
+            onView(withId(R.id.recyclerView)).check(
+                matches(
+                    atPosition(
+                        0,
+                        hasDescendant(withText("Tod86"))
+                    )
+                )
+            )
         }
 
         server.close()
