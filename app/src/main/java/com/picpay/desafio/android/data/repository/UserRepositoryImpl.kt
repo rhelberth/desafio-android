@@ -26,15 +26,12 @@ class UserRepositoryImpl
             if (response.isSuccessful) {
                 response.body()?.let { result ->
                     userLocalDataSource.saveAllUser(result.toEntity())
-                  //  Log.i("TAG", "ONLINE")
                     return ResultStatus.Success(result.toDomain())
                 }
             } else {
-              //  Log.i("TAG", "OFFLINE")
                 return ResultStatus.Success(userLocalDataSource.getAllUser())
             }
         } catch (ioException: IOException) {
-         //   Log.i("TAG", "OFFLINE ERRO")
             return ResultStatus.Success(userLocalDataSource.getAllUser())
         }
         return ResultStatus.Error(Exception())

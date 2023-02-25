@@ -23,13 +23,6 @@ class RoomUserDataSource @Inject constructor(
             }
         }
 
-
-
-       /* return withContext(Dispatchers.IO) {
-            userDao.getAll().map {
-                it.toModel()
-            }
-        }*/
     }
 
     override suspend fun saveAllUser(userList: List<UserEntity>) {
